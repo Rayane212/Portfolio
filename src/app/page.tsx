@@ -26,6 +26,9 @@ import {
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { useTranslation } from "@/i18n/context";
+import { useLocale } from "@/i18n/context";
+import type { TranslationKeys } from "@/i18n";
 
 // ---------------------------------------------------------------------------
 // Utilities
@@ -115,14 +118,12 @@ const stagger = {
 // ---------------------------------------------------------------------------
 // Navigation
 // ---------------------------------------------------------------------------
-const NAV_ITEMS = [
-  { label: "Home", href: "#hero" },
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
-];
+const NAV_HREFS = ["#hero", "#about", "#projects", "#contact"] as const;
+const NAV_KEYS: TranslationKeys[] = ["nav.home", "nav.about", "nav.projects", "nav.contact"];
 
 function Navbar() {
+  const { t } = useTranslation();
+  const { locale, toggleLocale } = useLocale();
   const [active, setActive] = useState("hero");
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
@@ -139,7 +140,7 @@ function Navbar() {
       { rootMargin: "-50% 0px -50% 0px" }
     );
 
-    NAV_ITEMS.forEach(({ href }) => {
+    NAV_HREFS.forEach((href) => {
       const el = document.querySelector(href);
       if (el) observer.observe(el);
     });
@@ -158,7 +159,7 @@ function Navbar() {
       )}
     >
       <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-1 py-1 backdrop-blur-xl">
-        {NAV_ITEMS.map(({ label, href }) => {
+        {NAV_HREFS.map((href, i) => {
           const id = href.replace("#", "");
           const isActive = active === id;
           return (
@@ -177,10 +178,48 @@ function Navbar() {
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
-              <span className="relative z-10">{label}</span>
+              <span className="relative z-10">{t(NAV_KEYS[i])}</span>
             </a>
           );
         })}
+
+        {/* Locale toggle */}
+        <div className="mx-1 h-4 border-l border-white/10" />
+        <button
+          onClick={toggleLocale}
+          className="relative flex items-center gap-0.5 rounded-full px-1 py-0.5 text-[10px] font-semibold"
+        >
+          <span
+            className={cn(
+              "relative z-10 rounded-full px-1.5 py-0.5 transition-colors",
+              locale === "fr" ? "text-white" : "text-zinc-500"
+            )}
+          >
+            {locale === "fr" && (
+              <motion.span
+                layoutId="locale-pill"
+                className="absolute inset-0 rounded-full bg-white/10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            <span className="relative">FR</span>
+          </span>
+          <span
+            className={cn(
+              "relative z-10 rounded-full px-1.5 py-0.5 transition-colors",
+              locale === "en" ? "text-white" : "text-zinc-500"
+            )}
+          >
+            {locale === "en" && (
+              <motion.span
+                layoutId="locale-pill"
+                className="absolute inset-0 rounded-full bg-white/10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            <span className="relative">EN</span>
+          </span>
+        </button>
       </div>
     </motion.nav>
   );
@@ -190,6 +229,8 @@ function Navbar() {
 // Hero Section
 // ---------------------------------------------------------------------------
 function HeroSection() {
+  const { t } = useTranslation();
+
   return (
     <section
       id="hero"
@@ -210,16 +251,16 @@ function HeroSection() {
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
               </span>
               <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-indigo-400/80">
-                Available for work
+                {t("hero.badge")}
               </span>
             </div>
             <h1 className="text-4xl font-semibold tracking-tight leading-[1.1] md:text-5xl">
               <span className="mb-2 block text-lg font-medium tracking-wide text-white/60">
-                Hello, I&apos;m
+                {t("hero.greeting")}
               </span>
               Rayane Hadi
               <span className="mt-2 block bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text font-light italic text-transparent">
-                Développeur Full Stack.
+                {t("hero.subtitle")}
               </span>
             </h1>
           </motion.div>
@@ -228,9 +269,7 @@ function HeroSection() {
             variants={sectionAnim}
             className="max-w-md text-sm leading-relaxed text-zinc-400 md:text-base"
           >
-            Titulaire du titre RNCP Expert en Développement Logiciel (Ynov Toulouse),
-            fort de deux ans d&apos;alternance chez Airbus. Passionné par la conception
-            d&apos;applications sécurisées et performantes en Java, .NET et NestJS/ReactJS.
+            {t("hero.bio")}
           </motion.p>
 
           <motion.div variants={sectionAnim} className="flex flex-wrap gap-4">
@@ -238,7 +277,7 @@ function HeroSection() {
               href="#projects"
               className="group flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all hover:bg-zinc-200"
             >
-              View Projects
+              {t("hero.cta")}
               <ArrowUpRight
                 size={14}
                 className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -246,8 +285,8 @@ function HeroSection() {
             </a>
             <div className="flex items-center gap-2">
               {[
-                { icon: Github, href: "https://github.com" }, /* TODO: Ajouter l'URL GitHub */
-                { icon: Linkedin, href: "https://linkedin.com" }, /* TODO: Ajouter l'URL LinkedIn */
+                { icon: Github, href: "https://github.com" },
+                { icon: Linkedin, href: "https://linkedin.com" },
                 { icon: Mail, href: "mailto:rayanehadi41@gmail.com" },
               ].map(({ icon: Icon, href }) => (
                 <a
@@ -290,7 +329,7 @@ function HeroSection() {
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-white/90">Backend</h3>
-                  <p className="mt-1 text-xs text-white/40">Java, NestJS, C# — applications robustes et performantes.</p>
+                  <p className="mt-1 text-xs text-white/40">{t("hero.card.backendDesc")}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -299,7 +338,7 @@ function HeroSection() {
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-white/90">Frontend</h3>
-                  <p className="mt-1 text-xs text-white/40">ReactJS, Angular, HTML/CSS — interfaces modernes et réactives.</p>
+                  <p className="mt-1 text-xs text-white/40">{t("hero.card.frontendDesc")}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -308,7 +347,7 @@ function HeroSection() {
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-white/90">DevOps</h3>
-                  <p className="mt-1 text-xs text-white/40">Docker, Kubernetes (Minikube), S3 — déploiement et conteneurisation.</p>
+                  <p className="mt-1 text-xs text-white/40">{t("hero.card.devopsDesc")}</p>
                 </div>
               </div>
             </div>
@@ -329,7 +368,7 @@ function HeroSection() {
         className="absolute bottom-10 flex flex-col items-center gap-2 text-zinc-500"
       >
         <span className="text-[10px] font-light uppercase tracking-[0.2em]">
-          Scroll
+          {t("hero.scroll")}
         </span>
         <div className="h-12 w-px bg-gradient-to-b from-zinc-500/50 to-transparent" />
       </motion.div>
@@ -355,28 +394,15 @@ const SKILLS = [
   "Kubernetes",
 ];
 
-const EXPERIENCE = [
-  {
-    role: "Développeur Java",
-    company: "Airbus Operations — Toulouse",
-    period: "Oct. 2023 — Sept. 2025",
-    desc: "Migration Java 6 vers Java 21, optimisation des performances, développement d'un outil de changeLog, rédaction de spécifications fonctionnelles. Alternance.",
-  },
-  {
-    role: "Développeur Web C#/VB.NET",
-    company: "DailyBiz — Saint-Ouen",
-    period: "Août 2022 — Sept. 2023",
-    desc: "Développement de pages responsive, nouvelles fonctionnalités, requêtes SQL et correction de bugs. Alternance.",
-  },
-  {
-    role: "Stagiaire Développement Web",
-    company: "Préfecture de Police — Paris",
-    period: "Juin 2022 — Août 2022",
-    desc: "Développement d'une application web en PHP.",
-  },
+const EXPERIENCE_META = [
+  { roleKey: "about.exp1.role" as TranslationKeys, company: "Airbus Operations — Toulouse", period: "Oct. 2023 — Sept. 2025", descKey: "about.exp1.desc" as TranslationKeys },
+  { roleKey: "about.exp2.role" as TranslationKeys, company: "DailyBiz — Saint-Ouen", period: "Août 2022 — Sept. 2023", descKey: "about.exp2.desc" as TranslationKeys },
+  { roleKey: "about.exp3.role" as TranslationKeys, company: "Préfecture de Police — Paris", period: "Juin 2022 — Août 2022", descKey: "about.exp3.desc" as TranslationKeys },
 ];
 
 function AboutSection() {
+  const { t } = useTranslation();
+
   return (
     <section id="about" className="relative w-full px-6 py-32">
       <motion.div
@@ -389,12 +415,12 @@ function AboutSection() {
         {/* Heading */}
         <motion.div variants={sectionAnim} className="mb-16">
           <span className="mb-3 block font-mono text-[10px] uppercase tracking-[0.2em] text-indigo-400/80">
-            01 — About
+            {t("about.label")}
           </span>
           <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
-            A bit about{" "}
+            {t("about.title")}
             <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              me
+              {t("about.titleHighlight")}
             </span>
           </h2>
         </motion.div>
@@ -403,22 +429,16 @@ function AboutSection() {
           {/* Bio + Skills */}
           <motion.div variants={sectionAnim} className="space-y-8">
             <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
-              Développeur Full Stack diplômé Expert en Développement Logiciel
-              (RNCP, Ynov Toulouse). Deux ans d&apos;alternance chez Airbus m&apos;ont
-              permis d&apos;acquérir une solide expérience en Java, .NET et
-              NestJS/ReactJS.
+              {t("about.bio1")}
             </p>
             <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
-              Passionné par la conception d&apos;applications sécurisées et
-              performantes, je suis à la recherche de nouveaux défis en CDI.
-              En dehors du code, je fais de la veille technologique, des projets
-              perso et je joue au football.
+              {t("about.bio2")}
             </p>
 
             {/* Skills */}
             <div>
               <h3 className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
-                Technologies
+                {t("about.skillsLabel")}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {SKILLS.map((skill) => (
@@ -436,16 +456,16 @@ function AboutSection() {
           {/* Experience */}
           <motion.div variants={sectionAnim} className="space-y-6">
             <h3 className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
-              Experience
+              {t("about.experienceLabel")}
             </h3>
-            {EXPERIENCE.map((exp) => (
+            {EXPERIENCE_META.map((exp) => (
               <div
-                key={exp.role}
+                key={exp.roleKey}
                 className="group rounded-xl border border-white/5 bg-white/[0.02] p-5 transition-colors hover:border-white/10 hover:bg-white/5"
               >
                 <div className="mb-1 flex items-center justify-between">
                   <h4 className="text-sm font-medium text-white/90">
-                    {exp.role}
+                    {t(exp.roleKey)}
                   </h4>
                   <span className="font-mono text-[10px] text-zinc-500">
                     {exp.period}
@@ -455,7 +475,7 @@ function AboutSection() {
                   {exp.company}
                 </p>
                 <p className="text-xs leading-relaxed text-zinc-500">
-                  {exp.desc}
+                  {t(exp.descKey)}
                 </p>
               </div>
             ))}
@@ -469,34 +489,16 @@ function AboutSection() {
 // ---------------------------------------------------------------------------
 // Projects Section
 // ---------------------------------------------------------------------------
-const PROJECTS = [
-  {
-    title: "Messagerie sécurisée E2EE",
-    desc: "Application de messagerie chiffrée de bout en bout (E2EE). Projet fil rouge réalisé dans le cadre du titre RNCP Expert en Développement Logiciel.",
-    tags: ["NestJS", "ReactJS", "E2EE", "WebSocket"],
-    link: "#", /* TODO: Ajouter le lien du projet */
-  },
-  {
-    title: "Migration Java — Airbus",
-    desc: "Migration d'une application critique de Java 6 vers Java 21 chez Airbus Operations, incluant l'optimisation des performances et un outil de changeLog.",
-    tags: ["Java 21", "Airbus", "Performance"],
-    link: "#", /* TODO: Ajouter le lien du projet si disponible */
-  },
-  {
-    title: "Explore Game",
-    desc: "Jeu d'exploration combinant une partie web développée en Python et une application mobile Android en Java. Projet tutoré de 2ème année de DUT.",
-    tags: ["Python", "Java", "Android", "Web"],
-    link: "#", /* TODO: Ajouter le lien du projet */
-  },
-  {
-    title: "Jeu 2D en Java",
-    desc: "Conception et développement d'un jeu vidéo en 2D en Java. Projet tutoré de 1ère année de DUT Informatique.",
-    tags: ["Java", "2D", "Game Dev"],
-    link: "#", /* TODO: Ajouter le lien du projet */
-  },
+const PROJECTS_META = [
+  { titleKey: "projects.proj1.title" as TranslationKeys, descKey: "projects.proj1.desc" as TranslationKeys, tags: ["NestJS", "ReactJS", "E2EE", "WebSocket"], link: "#" },
+  { titleKey: "projects.proj2.title" as TranslationKeys, descKey: "projects.proj2.desc" as TranslationKeys, tags: ["Java 21", "Airbus", "Performance"], link: "#" },
+  { titleKey: "projects.proj3.title" as TranslationKeys, descKey: "projects.proj3.desc" as TranslationKeys, tags: ["Python", "Java", "Android", "Web"], link: "#" },
+  { titleKey: "projects.proj4.title" as TranslationKeys, descKey: "projects.proj4.desc" as TranslationKeys, tags: ["Java", "2D", "Game Dev"], link: "#" },
 ];
 
 function ProjectsSection() {
+  const { t } = useTranslation();
+
   return (
     <section id="projects" className="relative w-full px-6 py-32">
       <motion.div
@@ -508,19 +510,19 @@ function ProjectsSection() {
       >
         <motion.div variants={sectionAnim} className="mb-16">
           <span className="mb-3 block font-mono text-[10px] uppercase tracking-[0.2em] text-indigo-400/80">
-            02 — Projects
+            {t("projects.label")}
           </span>
           <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
-            Selected{" "}
+            {t("projects.title")}
             <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              work
+              {t("projects.titleHighlight")}
             </span>
           </h2>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {PROJECTS.map((project) => (
-            <motion.div key={project.title} variants={sectionAnim}>
+          {PROJECTS_META.map((project) => (
+            <motion.div key={project.titleKey} variants={sectionAnim}>
               <a
                 href={project.link}
                 target="_blank"
@@ -539,10 +541,10 @@ function ProjectsSection() {
                       />
                     </div>
                     <h3 className="mb-2 text-lg font-semibold text-white/90">
-                      {project.title}
+                      {t(project.titleKey)}
                     </h3>
                     <p className="mb-6 text-xs leading-relaxed text-zinc-400">
-                      {project.desc}
+                      {t(project.descKey)}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -569,6 +571,7 @@ function ProjectsSection() {
 // Contact Section
 // ---------------------------------------------------------------------------
 function ContactSection() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
@@ -600,17 +603,16 @@ function ContactSection() {
       >
         <motion.div variants={sectionAnim}>
           <span className="mb-3 block font-mono text-[10px] uppercase tracking-[0.2em] text-indigo-400/80">
-            03 — Contact
+            {t("contact.label")}
           </span>
           <h2 className="mb-6 text-3xl font-semibold tracking-tight md:text-4xl">
-            Let&apos;s{" "}
+            {t("contact.title")}
             <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              connect
+              {t("contact.titleHighlight")}
             </span>
           </h2>
           <p className="mx-auto mb-10 max-w-md text-sm leading-relaxed text-zinc-400 md:text-base">
-            Je suis ouvert aux opportunités en CDI et aux projets ambitieux.
-            N&apos;hésitez pas à me contacter pour discuter.
+            {t("contact.subtitle")}
           </p>
         </motion.div>
 
@@ -622,7 +624,7 @@ function ContactSection() {
         >
           <input
             type="text"
-            placeholder="Nom"
+            placeholder={t("contact.placeholderName")}
             required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -630,14 +632,14 @@ function ContactSection() {
           />
           <input
             type="email"
-            placeholder="Email"
+            placeholder={t("contact.placeholderEmail")}
             required
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-zinc-500 backdrop-blur-sm transition-colors focus:border-indigo-500/50 focus:outline-none focus:ring-1 focus:ring-indigo-500/20"
           />
           <textarea
-            placeholder="Message"
+            placeholder={t("contact.placeholderMessage")}
             required
             rows={5}
             value={formData.message}
@@ -652,12 +654,12 @@ function ContactSection() {
             {status === "sending" ? (
               <>
                 <Loader2 size={16} className="animate-spin" />
-                Envoi...
+                {t("contact.sending")}
               </>
             ) : (
               <>
                 <Send size={16} />
-                Envoyer
+                {t("contact.send")}
               </>
             )}
           </button>
@@ -669,7 +671,7 @@ function ContactSection() {
               className="flex items-center justify-center gap-2 text-sm text-emerald-400"
             >
               <CheckCircle2 size={16} />
-              Message envoyé avec succès !
+              {t("contact.success")}
             </motion.p>
           )}
           {status === "error" && (
@@ -679,7 +681,7 @@ function ContactSection() {
               className="flex items-center justify-center gap-2 text-sm text-red-400"
             >
               <AlertCircle size={16} />
-              Erreur lors de l&apos;envoi. Réessayez ou contactez-moi directement.
+              {t("contact.error")}
             </motion.p>
           )}
         </motion.form>
@@ -699,12 +701,8 @@ function ContactSection() {
 
           <div className="flex items-center gap-3">
             {[
-              { icon: Github, href: "https://github.com", label: "GitHub" }, /* TODO: Ajouter l'URL GitHub */
-              {
-                icon: Linkedin,
-                href: "https://linkedin.com", /* TODO: Ajouter l'URL LinkedIn */
-                label: "LinkedIn",
-              },
+              { icon: Github, href: "https://github.com", label: "GitHub" },
+              { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
             ].map(({ icon: Icon, href, label }) => (
               <a
                 key={label}
@@ -725,7 +723,7 @@ function ContactSection() {
           className="mt-24 border-t border-white/5 pt-8"
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-600">
-            &copy; {new Date().getFullYear()} Rayane Hadi. All rights reserved.
+            &copy; {new Date().getFullYear()} Rayane Hadi. {t("footer.rights")}
           </p>
         </motion.div>
       </motion.div>
