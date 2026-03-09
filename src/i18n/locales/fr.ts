@@ -64,6 +64,7 @@ const fr = {
     "Je suis ouvert aux opportunités en CDI et aux projets ambitieux. N'hésitez pas à me contacter pour discuter.",
   "contact.placeholderName": "Nom",
   "contact.placeholderEmail": "Email",
+  "contact.placeholderSubject": "Objet",
   "contact.placeholderMessage": "Message",
   "contact.sending": "Envoi...",
   "contact.send": "Envoyer",

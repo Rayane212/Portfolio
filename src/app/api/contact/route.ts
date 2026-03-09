@@ -3,12 +3,29 @@ import { NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Simple in-memory rate limiter using Map (IP -> Timestamp)
+const rateLimitMap = new Map<string, number>();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute per IP
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { name, email, message } = body;
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
 
-    if (!name || !email || !message) {
+    // Check rate limit
+    const lastRequestTime = rateLimitMap.get(ip);
+    const now = Date.now();
+    if (lastRequestTime && now - lastRequestTime < RATE_LIMIT_WINDOW_MS) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
+    }
+    rateLimitMap.set(ip, now);
+
+    const body = await request.json();
+    const { name, email, subject, message } = body;
+
+    if (!name || !email || !subject || !message) {
       return NextResponse.json(
         { error: "Tous les champs sont requis." },
         { status: 400 }
@@ -20,7 +37,7 @@ export async function POST(request: Request) {
       from: "Portfolio <onboarding@resend.dev>",
       to: "rayanehadi41@gmail.com",
       replyTo: email,
-      subject: `[Portfolio] Message de ${name}`,
+      subject: `[Portfolio] ${subject} - ${name}`,
       html: `
 <!DOCTYPE html>
 <html>

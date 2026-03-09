@@ -66,6 +66,7 @@ const en: Record<TranslationKeys, string> = {
     "I'm open to permanent positions and ambitious projects. Feel free to reach out to discuss.",
   "contact.placeholderName": "Name",
   "contact.placeholderEmail": "Email",
+  "contact.placeholderSubject": "Subject",
   "contact.placeholderMessage": "Message",
   "contact.sending": "Sending...",
   "contact.send": "Send",

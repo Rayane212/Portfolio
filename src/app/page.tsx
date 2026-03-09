@@ -587,8 +587,8 @@ function ProjectsSection() {
 // ---------------------------------------------------------------------------
 function ContactSection() {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error" | "ratelimited">("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -599,9 +599,13 @@ function ContactSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+      if (res.status === 429) {
+        setStatus("ratelimited");
+        return;
+      }
       if (!res.ok) throw new Error();
       setStatus("sent");
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", subject: "", message: "" });
     } catch {
       setStatus("error");
     }
@@ -637,20 +641,30 @@ function ContactSection() {
           onSubmit={handleSubmit}
           className="mx-auto mb-10 flex max-w-lg flex-col gap-4 text-left"
         >
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <input
+              type="text"
+              placeholder={t("contact.placeholderName")}
+              required
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-zinc-500 backdrop-blur-sm transition-colors focus:border-indigo-500/50 focus:outline-none focus:ring-1 focus:ring-indigo-500/20"
+            />
+            <input
+              type="email"
+              placeholder={t("contact.placeholderEmail")}
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-zinc-500 backdrop-blur-sm transition-colors focus:border-indigo-500/50 focus:outline-none focus:ring-1 focus:ring-indigo-500/20"
+            />
+          </div>
           <input
             type="text"
-            placeholder={t("contact.placeholderName")}
+            placeholder={t("contact.placeholderSubject" as TranslationKeys)}
             required
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-zinc-500 backdrop-blur-sm transition-colors focus:border-indigo-500/50 focus:outline-none focus:ring-1 focus:ring-indigo-500/20"
-          />
-          <input
-            type="email"
-            placeholder={t("contact.placeholderEmail")}
-            required
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            value={formData.subject}
+            onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
             className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-zinc-500 backdrop-blur-sm transition-colors focus:border-indigo-500/50 focus:outline-none focus:ring-1 focus:ring-indigo-500/20"
           />
           <textarea
@@ -697,6 +711,16 @@ function ContactSection() {
             >
               <AlertCircle size={16} />
               {t("contact.error")}
+            </motion.p>
+          )}
+          {status === "ratelimited" && (
+            <motion.p
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center justify-center gap-2 text-sm text-red-400"
+            >
+              <AlertCircle size={16} />
+              {"Trop de requêtes, veuillez patienter."}
             </motion.p>
           )}
         </motion.form>
