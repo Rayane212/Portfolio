@@ -10,7 +10,7 @@ const fr = {
   "hero.greeting": "Bonjour, je suis",
   "hero.subtitle": "Développeur Full Stack.",
   "hero.bio":
-    "Titulaire du titre RNCP Expert en Développement Logiciel (Ynov Toulouse), fort de deux ans d'alternance chez Airbus. Passionné par la conception d'applications sécurisées et performantes en Java, .NET et NestJS/ReactJS.",
+    "Ingénieur Logiciel passionné par l'innovation et l'architecture web. Fort de deux ans d'expérience chez Airbus, je conçois des solutions de bout en bout, en alliant sécurité, performance et code de qualité (Java, .NET, NestJS/ReactJS).",
   "hero.cta": "Voir les projets",
   "hero.cv": "Télécharger mon CV",
   "hero.scroll": "Scroll",
@@ -26,7 +26,7 @@ const fr = {
   "about.title": "Un peu plus sur ",
   "about.titleHighlight": "moi",
   "about.bio1":
-    "Développeur Full Stack passionné, j'ai construit mon expertise à travers des environnements techniques exigeants. Mon parcours s'est forgé sur deux piliers : l'agilité web chez DailyBiz (.NET/Responsive) et la rigueur industrielle chez Airbus, où j'ai piloté des migrations critiques vers Java 21.",
+    "Ingénieur Logiciel passionné, j'ai forgé mon expertise technique à travers des environnements exigeants. Mes deux années d'alternance chez Airbus m'ont permis d'acquérir une solide maîtrise en Java, .NET et de l'écosystème JS.",
   "about.bio2":
     "Curieux et investi, je prolonge cette expertise via mes projets personnels. La conception de ma messagerie sécurisée (E2EE) en NestJS/React témoigne de mon intérêt pour la cybersécurité et les architectures modernes.",
   "about.bio3":

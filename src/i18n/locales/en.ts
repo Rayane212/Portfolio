@@ -12,7 +12,7 @@ const en: Record<TranslationKeys, string> = {
   "hero.greeting": "Hello, I'm",
   "hero.subtitle": "Full Stack Developer.",
   "hero.bio":
-    "Holder of the RNCP Expert in Software Development title (Ynov Toulouse), with two years of work-study experience at Airbus. Passionate about designing secure and high-performance applications in Java, .NET, and NestJS/ReactJS.",
+    "Software Engineer passionate about innovation and web architecture. With two years of experience at Airbus, I build end-to-end solutions, combining security, performance, and clean code (Java, .NET, NestJS/ReactJS).",
   "hero.cta": "View Projects",
   "hero.cv": "Download Resume",
   "hero.scroll": "Scroll",
@@ -28,7 +28,7 @@ const en: Record<TranslationKeys, string> = {
   "about.title": "A bit about ",
   "about.titleHighlight": "me",
   "about.bio1":
-    "Passionate Full Stack Developer, I have built my expertise through demanding technical environments. My journey is based on two pillars: web agility at DailyBiz (.NET/Responsive) and industrial rigor at Airbus, where I led critical migrations to Java 21.",
+    "Passionate Software Engineer, I built my technical expertise in demanding environments. My two years at Airbus allowed me to gain strong proficiency in Java, .NET, and the JS ecosystem.",
   "about.bio2":
     "Curious and committed, I extend this expertise through personal projects. Designing my secure messaging app (E2EE) using NestJS/React demonstrates my interest in cybersecurity and modern architectures.",
   "about.bio3":

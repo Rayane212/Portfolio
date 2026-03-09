@@ -138,24 +138,52 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
 
-  useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 50));
+  useMotionValueEvent(scrollY, "change", (v) => {
+    setScrolled(v > 50);
+    if (typeof window === "undefined") return;
+
+    // Use center of screen instead of 1/3 to avoid triggering earlier sections while scrolling down
+    const checkPoint = v + window.innerHeight / 2;
+    let currentSection = "hero";
+
+    // Loop through all sections naturally to find the current active one
+    for (const href of NAV_HREFS) {
+      const el = document.querySelector(href) as HTMLElement | null;
+      if (el && el.offsetTop <= checkPoint) {
+        currentSection = href.replace("#", "");
+      }
+    }
+
+    // Force Contact section when reached absolute bottom of the page
+    // Using a larger threshold (100px) so it selects contact slightly before absolute bottom
+    const isAtBottom = window.innerHeight + Math.round(v) >= document.body.offsetHeight - 100;
+    if (isAtBottom) {
+      currentSection = "contact";
+    }
+
+    if (currentSection !== active) setActive(currentSection);
+  });
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
-      { rootMargin: "-50% 0px -50% 0px" }
-    );
+    // Perform initial state evaluation on mount
+    if (typeof window !== "undefined") {
+      const checkPoint = window.scrollY + window.innerHeight / 2.5;
+      let currentSection = "hero";
 
-    NAV_HREFS.forEach((href) => {
-      const el = document.querySelector(href);
-      if (el) observer.observe(el);
-    });
+      for (const href of NAV_HREFS) {
+        const el = document.querySelector(href) as HTMLElement | null;
+        if (el && el.offsetTop <= checkPoint) {
+          currentSection = href.replace("#", "");
+        }
+      }
 
-    return () => observer.disconnect();
+      const isAtBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+      if (isAtBottom) {
+        currentSection = "contact";
+      }
+
+      setActive(currentSection);
+    }
   }, []);
 
   return (
@@ -176,6 +204,12 @@ function Navbar() {
             <a
               key={id}
               href={href}
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.querySelector(href);
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+                window.history.replaceState(null, "", window.location.pathname);
+              }}
               className={cn(
                 "relative rounded-full px-3 py-2 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-medium transition-colors whitespace-nowrap",
                 isActive ? "text-white" : "text-zinc-400 hover:text-zinc-200"
@@ -285,6 +319,11 @@ function HeroSection() {
           <motion.div variants={sectionAnim} className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 mt-4">
             <a
               href="#projects"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
+                window.history.replaceState(null, "", window.location.pathname);
+              }}
               className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all hover:bg-zinc-200"
             >
               {t("hero.cta")}
@@ -316,6 +355,13 @@ function HeroSection() {
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  onClick={(e) => {
+                    if (href.startsWith("#")) {
+                      e.preventDefault();
+                      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+                      window.history.replaceState(null, "", window.location.pathname);
+                    }
+                  }}
                   className="rounded-full border border-white/10 bg-white/5 p-2.5 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   <Icon size={16} />
@@ -791,6 +837,9 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
+    if (window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname);
+    }
   }, []);
 
   if (!mounted) {
