@@ -22,6 +22,8 @@ import {
   CheckCircle2,
   AlertCircle,
   Download,
+  Check,
+  Copy,
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -305,15 +307,15 @@ function HeroSection() {
             </a>
             <div className="flex items-center justify-center sm:justify-start gap-2 pt-2 sm:pt-0">
               {[
-                { icon: GithubIcon, href: "https://github.com" },
-                { icon: LinkedinIcon, href: "https://linkedin.com" },
-                { icon: Mail, href: "mailto:rayanehadi41@gmail.com" },
+                { icon: GithubIcon, href: "https://github.com/Rayane212" },
+                { icon: LinkedinIcon, href: "https://www.linkedin.com/in/rayane-h-b6348725a/" },
+                { icon: Mail, href: "#contact" },
               ].map(({ icon: Icon, href }) => (
                 <a
                   key={href}
                   href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                   className="rounded-full border border-white/10 bg-white/5 p-2.5 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   <Icon size={16} />
@@ -589,6 +591,13 @@ function ContactSection() {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error" | "ratelimited">("idle");
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("rayanehadi41@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -726,19 +735,24 @@ function ContactSection() {
         </motion.form>
 
         <motion.div variants={sectionAnim} className="flex flex-col items-center gap-6">
-          <a
-            href="mailto:rayanehadi41@gmail.com"
+          <button
+            onClick={handleCopyEmail}
             className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
           >
-            <Mail size={16} />
+            {copied ? <Check size={16} className="text-green-400" /> : <Mail size={16} />}
             rayanehadi41@gmail.com
-            <ArrowUpRight
-              size={14}
-              className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            />
-          </a>
+            {copied ? (
+              <span className="text-xs text-green-400">Copié !</span>
+            ) : (
+              <Copy
+                size={14}
+                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            )}
+          </button>
 
-          <div className="flex items-center gap-3">
+          {/* Social Links */}
+          <div className="flex gap-4">
             {[
               { icon: GithubIcon, href: "https://github.com/Rayane212", label: "GitHub" },
               { icon: LinkedinIcon, href: "https://www.linkedin.com/in/rayane-h-b6348725a/", label: "LinkedIn" },
@@ -746,8 +760,8 @@ function ContactSection() {
               <a
                 key={label}
                 href={href}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="rounded-full border border-white/10 bg-white/5 p-2.5 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
               >
                 <Icon size={16} />
