@@ -14,6 +14,7 @@ const en: Record<TranslationKeys, string> = {
   "hero.bio":
     "Holder of the RNCP Expert in Software Development title (Ynov Toulouse), with two years of work-study experience at Airbus. Passionate about designing secure and high-performance applications in Java, .NET, and NestJS/ReactJS.",
   "hero.cta": "View Projects",
+  "hero.cv": "Download Resume",
   "hero.scroll": "Scroll",
   "hero.card.backendDesc":
     "Java, NestJS, C# — robust and high-performance applications.",
@@ -27,9 +28,11 @@ const en: Record<TranslationKeys, string> = {
   "about.title": "A bit about ",
   "about.titleHighlight": "me",
   "about.bio1":
-    "Full Stack Developer with an Expert in Software Development degree (RNCP, Ynov Toulouse). Two years of work-study at Airbus gave me solid experience in Java, .NET, and NestJS/ReactJS.",
+    "Passionate Full Stack Developer, I have built my expertise through demanding technical environments. My journey is based on two pillars: web agility at DailyBiz (.NET/Responsive) and industrial rigor at Airbus, where I led critical migrations to Java 21.",
   "about.bio2":
-    "Passionate about building secure and high-performance applications, I'm looking for new challenges in a permanent role. Outside of coding, I enjoy tech watch, personal projects, and playing football.",
+    "Curious and committed, I extend this expertise through personal projects. Designing my secure messaging app (E2EE) using NestJS/React demonstrates my interest in cybersecurity and modern architectures.",
+  "about.bio3":
+    "On a personal level, I value teamwork and perseverance. Whether in cross-functional projects or on the football pitch, I place a high priority on collaboration to achieve ambitious goals.",
   "about.skillsLabel": "Technologies",
   "about.experienceLabel": "Experience",
   "about.exp1.role": "Java Developer",
@@ -43,20 +46,17 @@ const en: Record<TranslationKeys, string> = {
 
   // Projects
   "projects.label": "02 — Projects",
-  "projects.title": "Selected ",
-  "projects.titleHighlight": "work",
-  "projects.proj1.title": "E2EE Secure Messaging",
+  "projects.title": "My ",
+  "projects.titleHighlight": "Projects",
+  "projects.proj1.title": "ChainChat",
   "projects.proj1.desc":
-    "End-to-end encrypted messaging application (E2EE). Capstone project for the RNCP Expert in Software Development title.",
-  "projects.proj2.title": "Java Migration — Airbus",
+    "End-to-end encrypted messaging ensuring total privacy.",
+  "projects.proj2.title": "Matchfolio",
   "projects.proj2.desc":
-    "Migration of a critical application from Java 6 to Java 21 at Airbus Operations, including performance optimization and a changeLog tool.",
-  "projects.proj3.title": "Explore Game",
+    "Candidate-recruiter matchmaking based on portfolios via a microservices architecture.",
+  "projects.proj3.title": "HyperAgent",
   "projects.proj3.desc":
-    "Exploration game combining a web part developed in Python and an Android mobile application in Java. 2nd-year DUT group project.",
-  "projects.proj4.title": "2D Java Game",
-  "projects.proj4.desc":
-    "Design and development of a 2D video game in Java. 1st-year DUT Computer Science group project.",
+    "AI trading agent on Hyperliquid for automating blockchain strategies.",
 
   // Contact
   "contact.label": "03 — Contact",

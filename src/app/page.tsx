@@ -10,8 +10,6 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import {
-  Github,
-  Linkedin,
   Mail,
   ArrowUpRight,
   Code2,
@@ -23,12 +21,22 @@ import {
   Loader2,
   CheckCircle2,
   AlertCircle,
+  Download,
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useTranslation } from "@/i18n/context";
 import { useLocale } from "@/i18n/context";
 import type { TranslationKeys } from "@/i18n";
+
+
+const GithubIcon = ({ size = 16 }: { size?: number | string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-github-icon lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg>
+);
+
+const LinkedinIcon = ({ size = 16 }: { size?: number | string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-linkedin-icon lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg>
+);
 
 // ---------------------------------------------------------------------------
 // Utilities
@@ -93,8 +101,8 @@ function GlassCard({
         className
       )}
     >
-      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-      <div className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 transition-opacity group-hover:opacity-100" />
+      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-linear-to-br from-white/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+      <div className="pointer-events-none absolute -inset-px rounded-2xl bg-linear-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 transition-opacity group-hover:opacity-100" />
       <div style={{ transform: "translateZ(20px)" }}>{children}</div>
     </motion.div>
   );
@@ -154,8 +162,8 @@ function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
       className={cn(
-        "fixed left-0 right-0 top-0 z-50 flex items-center justify-center px-6 py-4 transition-all duration-300",
-        scrolled && "bg-[#030303]/80 backdrop-blur-md border-b border-white/5"
+        "fixed left-0 right-0 top-0 z-50 flex items-center justify-center px-6 py-4 transition-all duration-300 border-b",
+        scrolled ? "bg-background/80 backdrop-blur-md border-white/5" : "border-transparent"
       )}
     >
       <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-1 py-1 backdrop-blur-xl">
@@ -167,7 +175,7 @@ function Navbar() {
               key={id}
               href={href}
               className={cn(
-                "relative rounded-full px-4 py-1.5 text-xs font-medium transition-colors",
+                "relative rounded-full px-3 py-2 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-medium transition-colors whitespace-nowrap",
                 isActive ? "text-white" : "text-zinc-400 hover:text-zinc-200"
               )}
             >
@@ -234,15 +242,15 @@ function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6 py-20 selection:bg-indigo-500/30"
+      className="relative flex min-h-screen w-full flex-col items-center justify-start lg:justify-center overflow-hidden px-6 pt-32 pb-20 lg:pt-20 selection:bg-indigo-500/30"
     >
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-16 lg:grid-cols-2">
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
         {/* Left */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={stagger}
-          className="flex flex-col space-y-8"
+          className="flex flex-col space-y-6 lg:space-y-8"
         >
           <motion.div variants={sectionAnim}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/5 px-3 py-1 backdrop-blur-sm">
@@ -259,7 +267,7 @@ function HeroSection() {
                 {t("hero.greeting")}
               </span>
               Rayane Hadi
-              <span className="mt-2 block bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text font-light italic text-transparent">
+              <span className="mt-2 block bg-linear-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text font-light italic text-transparent">
                 {t("hero.subtitle")}
               </span>
             </h1>
@@ -272,10 +280,10 @@ function HeroSection() {
             {t("hero.bio")}
           </motion.p>
 
-          <motion.div variants={sectionAnim} className="flex flex-wrap gap-4">
+          <motion.div variants={sectionAnim} className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 mt-4">
             <a
               href="#projects"
-              className="group flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all hover:bg-zinc-200"
+              className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all hover:bg-zinc-200"
             >
               {t("hero.cta")}
               <ArrowUpRight
@@ -283,10 +291,22 @@ function HeroSection() {
                 className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             </a>
-            <div className="flex items-center gap-2">
+            <a
+              href="/CV_Dev_FullStack.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-xs font-semibold text-white transition-all hover:bg-white/10"
+            >
+              {t("hero.cv")}
+              <Download
+                size={14}
+                className="transition-transform group-hover:-translate-y-0.5"
+              />
+            </a>
+            <div className="flex items-center justify-center sm:justify-start gap-2 pt-2 sm:pt-0">
               {[
-                { icon: Github, href: "https://github.com" },
-                { icon: Linkedin, href: "https://linkedin.com" },
+                { icon: GithubIcon, href: "https://github.com" },
+                { icon: LinkedinIcon, href: "https://linkedin.com" },
                 { icon: Mail, href: "mailto:rayanehadi41@gmail.com" },
               ].map(({ icon: Icon, href }) => (
                 <a
@@ -308,11 +328,11 @@ function HeroSection() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
-          className="relative"
+          className="relative mt-4 lg:mt-0"
           style={{ perspective: 1000 }}
         >
-          <GlassCard className="flex w-full flex-col justify-between overflow-hidden aspect-[4/3]">
-            <div className="flex items-center justify-between">
+          <GlassCard className="flex w-full flex-col justify-between overflow-hidden sm:aspect-4/3 min-h-[300px]">
+            <div className="flex items-center justify-between pl-2">
               <div className="flex gap-1.5">
                 <div className="h-2.5 w-2.5 rounded-full bg-red-500/40" />
                 <div className="h-2.5 w-2.5 rounded-full bg-amber-500/40" />
@@ -360,17 +380,17 @@ function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - hidden on mobile to prevent overlaps on short viewports */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-10 flex flex-col items-center gap-2 text-zinc-500"
+        className="hidden sm:flex absolute bottom-10 flex-col items-center gap-2 text-zinc-500"
       >
         <span className="text-[10px] font-light uppercase tracking-[0.2em]">
           {t("hero.scroll")}
         </span>
-        <div className="h-12 w-px bg-gradient-to-b from-zinc-500/50 to-transparent" />
+        <div className="h-12 w-px bg-linear-to-b from-zinc-500/50 to-transparent" />
       </motion.div>
     </section>
   );
@@ -419,7 +439,7 @@ function AboutSection() {
           </span>
           <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
             {t("about.title")}
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
               {t("about.titleHighlight")}
             </span>
           </h2>
@@ -428,12 +448,17 @@ function AboutSection() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           {/* Bio + Skills */}
           <motion.div variants={sectionAnim} className="space-y-8">
-            <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
-              {t("about.bio1")}
-            </p>
-            <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
-              {t("about.bio2")}
-            </p>
+            <div className="space-y-4">
+              <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
+                {t("about.bio1")}
+              </p>
+              <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
+                {t("about.bio2")}
+              </p>
+              <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
+                {t("about.bio3")}
+              </p>
+            </div>
 
             {/* Skills */}
             <div>
@@ -461,13 +486,13 @@ function AboutSection() {
             {EXPERIENCE_META.map((exp) => (
               <div
                 key={exp.roleKey}
-                className="group rounded-xl border border-white/5 bg-white/[0.02] p-5 transition-colors hover:border-white/10 hover:bg-white/5"
+                className="group rounded-xl border border-white/5 bg-white/2 p-5 transition-colors hover:border-white/10 hover:bg-white/5"
               >
-                <div className="mb-1 flex items-center justify-between">
+                <div className="mb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
                   <h4 className="text-sm font-medium text-white/90">
                     {t(exp.roleKey)}
                   </h4>
-                  <span className="font-mono text-[10px] text-zinc-500">
+                  <span className="font-mono text-[10px] text-zinc-500 mt-1 sm:mt-0">
                     {exp.period}
                   </span>
                 </div>
@@ -491,9 +516,8 @@ function AboutSection() {
 // ---------------------------------------------------------------------------
 const PROJECTS_META = [
   { titleKey: "projects.proj1.title" as TranslationKeys, descKey: "projects.proj1.desc" as TranslationKeys, tags: ["NestJS", "ReactJS", "E2EE", "WebSocket"], link: "#" },
-  { titleKey: "projects.proj2.title" as TranslationKeys, descKey: "projects.proj2.desc" as TranslationKeys, tags: ["Java 21", "Airbus", "Performance"], link: "#" },
-  { titleKey: "projects.proj3.title" as TranslationKeys, descKey: "projects.proj3.desc" as TranslationKeys, tags: ["Python", "Java", "Android", "Web"], link: "#" },
-  { titleKey: "projects.proj4.title" as TranslationKeys, descKey: "projects.proj4.desc" as TranslationKeys, tags: ["Java", "2D", "Game Dev"], link: "#" },
+  { titleKey: "projects.proj2.title" as TranslationKeys, descKey: "projects.proj2.desc" as TranslationKeys, tags: [".NET Core", "Microservices", "SQL Server", "Docker"], link: "#" },
+  { titleKey: "projects.proj3.title" as TranslationKeys, descKey: "projects.proj3.desc" as TranslationKeys, tags: ["NestJS", "Next.js", "AI", "Fintech"], link: "#" },
 ];
 
 function ProjectsSection() {
@@ -514,7 +538,7 @@ function ProjectsSection() {
           </span>
           <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
             {t("projects.title")}
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
               {t("projects.titleHighlight")}
             </span>
           </h2>
@@ -522,23 +546,14 @@ function ProjectsSection() {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {PROJECTS_META.map((project) => (
-            <motion.div key={project.titleKey} variants={sectionAnim}>
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block"
-              >
+            <motion.div key={project.titleKey} variants={sectionAnim} className="h-full">
+              <div className="block h-full">
                 <GlassCard className="flex h-full flex-col justify-between">
                   <div>
                     <div className="mb-4 flex items-center justify-between">
                       <div className="rounded-lg border border-white/10 bg-white/5 p-2">
                         <Layers size={18} className="text-indigo-400" />
                       </div>
-                      <ExternalLink
-                        size={14}
-                        className="text-zinc-500 transition-colors group-hover:text-white"
-                      />
                     </div>
                     <h3 className="mb-2 text-lg font-semibold text-white/90">
                       {t(project.titleKey)}
@@ -551,14 +566,14 @@ function ProjectsSection() {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-white/5 bg-white/[0.03] px-2.5 py-0.5 font-mono text-[10px] text-zinc-500"
+                        className="rounded-full border border-white/5 bg-white/3 px-2.5 py-0.5 font-mono text-[10px] text-zinc-500"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
                 </GlassCard>
-              </a>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -607,7 +622,7 @@ function ContactSection() {
           </span>
           <h2 className="mb-6 text-3xl font-semibold tracking-tight md:text-4xl">
             {t("contact.title")}
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
               {t("contact.titleHighlight")}
             </span>
           </h2>
@@ -701,8 +716,8 @@ function ContactSection() {
 
           <div className="flex items-center gap-3">
             {[
-              { icon: Github, href: "https://github.com", label: "GitHub" },
-              { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+              { icon: GithubIcon, href: "https://github.com/Rayane212", label: "GitHub" },
+              { icon: LinkedinIcon, href: "https://www.linkedin.com/in/rayane-h-b6348725a/", label: "LinkedIn" },
             ].map(({ icon: Icon, href, label }) => (
               <a
                 key={label}
@@ -741,11 +756,11 @@ export default function Home() {
   }, []);
 
   if (!mounted) {
-    return <div className="min-h-screen bg-[#030303]" />;
+    return <div className="min-h-screen bg-background" />;
   }
 
   return (
-    <div className="relative min-h-screen bg-[#030303] text-white">
+    <div className="relative min-h-screen bg-background text-white">
       <Atmosphere />
       <Navbar />
       <HeroSection />

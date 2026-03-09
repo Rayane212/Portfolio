@@ -12,6 +12,7 @@ const fr = {
   "hero.bio":
     "Titulaire du titre RNCP Expert en Développement Logiciel (Ynov Toulouse), fort de deux ans d'alternance chez Airbus. Passionné par la conception d'applications sécurisées et performantes en Java, .NET et NestJS/ReactJS.",
   "hero.cta": "Voir les projets",
+  "hero.cv": "Télécharger mon CV",
   "hero.scroll": "Scroll",
   "hero.card.backendDesc":
     "Java, NestJS, C# — applications robustes et performantes.",
@@ -25,9 +26,11 @@ const fr = {
   "about.title": "Un peu plus sur ",
   "about.titleHighlight": "moi",
   "about.bio1":
-    "Développeur Full Stack diplômé Expert en Développement Logiciel (RNCP, Ynov Toulouse). Deux ans d'alternance chez Airbus m'ont permis d'acquérir une solide expérience en Java, .NET et NestJS/ReactJS.",
+    "Développeur Full Stack passionné, j'ai construit mon expertise à travers des environnements techniques exigeants. Mon parcours s'est forgé sur deux piliers : l'agilité web chez DailyBiz (.NET/Responsive) et la rigueur industrielle chez Airbus, où j'ai piloté des migrations critiques vers Java 21.",
   "about.bio2":
-    "Passionné par la conception d'applications sécurisées et performantes, je suis à la recherche de nouveaux défis en CDI. En dehors du code, je fais de la veille technologique, des projets perso et je joue au football.",
+    "Curieux et investi, je prolonge cette expertise via mes projets personnels. La conception de ma messagerie sécurisée (E2EE) en NestJS/React témoigne de mon intérêt pour la cybersécurité et les architectures modernes.",
+  "about.bio3":
+    "Sur le plan humain, je mise sur l'esprit d'équipe et la persévérance. Que ce soit lors de projets transverses ou sur un terrain de football, j'accorde une importance primordiale à la collaboration pour atteindre des objectifs ambitieux.",
   "about.skillsLabel": "Technologies",
   "about.experienceLabel": "Expérience",
   "about.exp1.role": "Développeur Java",
@@ -41,20 +44,17 @@ const fr = {
 
   // Projects
   "projects.label": "02 — Projets",
-  "projects.title": "Travaux ",
-  "projects.titleHighlight": "sélectionnés",
-  "projects.proj1.title": "Messagerie sécurisée E2EE",
+  "projects.title": "Mes ",
+  "projects.titleHighlight": "Projets",
+  "projects.proj1.title": "ChainChat",
   "projects.proj1.desc":
-    "Application de messagerie chiffrée de bout en bout (E2EE). Projet fil rouge réalisé dans le cadre du titre RNCP Expert en Développement Logiciel.",
-  "projects.proj2.title": "Migration Java — Airbus",
+    "Messagerie chiffrée de bout en bout garantissant la confidentialité totale.",
+  "projects.proj2.title": "Matchfolio",
   "projects.proj2.desc":
-    "Migration d'une application critique de Java 6 vers Java 21 chez Airbus Operations, incluant l'optimisation des performances et un outil de changeLog.",
-  "projects.proj3.title": "Explore Game",
+    "Mise en relation recruteurs/candidats basée sur les portfolios via une architecture microservices.",
+  "projects.proj3.title": "HyperAgent",
   "projects.proj3.desc":
-    "Jeu d'exploration combinant une partie web développée en Python et une application mobile Android en Java. Projet tutoré de 2ème année de DUT.",
-  "projects.proj4.title": "Jeu 2D en Java",
-  "projects.proj4.desc":
-    "Conception et développement d'un jeu vidéo en 2D en Java. Projet tutoré de 1ère année de DUT Informatique.",
+    "Agent IA de trading sur Hyperliquid pour l'automatisation de stratégies blockchain.",
 
   // Contact
   "contact.label": "03 — Contact",

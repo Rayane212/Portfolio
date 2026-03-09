@@ -64,8 +64,8 @@ const GlassCard = ({ children, className }: { children: React.ReactNode; classNa
         className
       )}
     >
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      <div className="absolute -inset-px rounded-2xl bg-linear-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
       <div style={{ transform: "translateZ(20px)" }}>{children}</div>
     </motion.div>
   );
@@ -74,10 +74,10 @@ const GlassCard = ({ children, className }: { children: React.ReactNode; classNa
 function GlassGradientHero() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
-  if (!mounted) return <section className="min-h-[90vh] w-full bg-[#030303]" />;
+  if (!mounted) return <section className="min-h-[90vh] w-full bg-background" />;
 
   return (
-    <section className="relative min-h-[90vh] w-full flex flex-col items-center justify-center px-6 py-20 bg-[#030303] text-white selection:bg-indigo-500/30 overflow-hidden font-sans">
+    <section className="relative min-h-[90vh] w-full flex flex-col items-center justify-center px-6 py-20 bg-background text-white selection:bg-indigo-500/30 overflow-hidden font-sans">
       <Atmosphere />
 
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="absolute top-8 left-1/2 -translate-x-1/2 z-20">
@@ -92,7 +92,7 @@ function GlassGradientHero() {
             <h1 className="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
               <span className="text-white/60 block text-lg font-medium tracking-wide mb-2">Hello, I'm</span>
               Your Name
-              <span className="block mt-2 bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent italic font-light">
+              <span className="block mt-2 bg-linear-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent italic font-light">
                 Crafting digital clarity.
               </span>
             </h1>
@@ -116,7 +116,7 @@ function GlassGradientHero() {
         </div>
 
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.5, ease: [0.23, 1, 0.32, 1] }} className="relative" style={{ perspective: 1000 }}>
-          <GlassCard className="w-full aspect-[4/3] flex flex-col justify-between overflow-hidden">
+          <GlassCard className="w-full aspect-4/3 flex flex-col justify-between overflow-hidden">
             <div className="flex items-center justify-between">
               <div className="flex gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
@@ -151,9 +151,9 @@ function GlassGradientHero() {
             <div className="mt-auto pt-6 flex items-center justify-between border-t border-white/5">
               <div className="flex -space-x-2">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="w-6 h-6 rounded-full border border-[#030303] bg-gradient-to-tr from-zinc-700 to-zinc-400" />
+                  <div key={i} className="w-6 h-6 rounded-full border border-background bg-linear-to-tr from-zinc-700 to-zinc-400" />
                 ))}
-                <div className="w-6 h-6 rounded-full border border-[#030303] bg-white/5 backdrop-blur-sm flex items-center justify-center text-[8px] font-bold text-white/60">+12</div>
+                <div className="w-6 h-6 rounded-full border border-background bg-white/5 backdrop-blur-sm flex items-center justify-center text-[8px] font-bold text-white/60">+12</div>
               </div>
               <span className="text-[10px] font-medium text-blue-400 uppercase tracking-widest">Active Project</span>
             </div>
@@ -169,7 +169,7 @@ function GlassGradientHero() {
         className="absolute bottom-10 flex flex-col items-center gap-2 text-zinc-500"
       >
         <span className="text-[10px] uppercase tracking-[0.2em] font-light">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-zinc-500/50 to-transparent" />
+        <div className="w-px h-12 bg-linear-to-b from-zinc-500/50 to-transparent" />
       </motion.div>
     </section>
   );
@@ -179,7 +179,7 @@ function GlassGradientHero() {
 ## Design Tokens
 
 ### Colors
-- **Background**: `bg-[#030303]` (near black)
+- **Background**: `bg-background` (near black)
 - **Text primary**: `text-white`
 - **Text secondary**: `text-zinc-400`
 - **Text muted**: `text-white/40`, `text-white/60`
