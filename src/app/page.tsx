@@ -8,6 +8,7 @@ import {
   useTransform,
   useScroll,
   useMotionValueEvent,
+  AnimatePresence,
 } from "framer-motion";
 import {
   Mail,
@@ -24,6 +25,9 @@ import {
   Download,
   Check,
   Copy,
+  X,
+  Network,
+  Clapperboard,
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -468,6 +472,12 @@ const EXPERIENCE_META = [
   { roleKey: "about.exp3.role" as TranslationKeys, company: "Préfecture de Police — Paris", period: "Juin 2022 — Août 2022", descKey: "about.exp3.desc" as TranslationKeys },
 ];
 
+const FORMATION_META = [
+  { roleKey: "about.form1.role" as TranslationKeys, company: "Ynov — Toulouse", period: "Oct. 2023 — Sept. 2025", descKey: "about.form1.desc" as TranslationKeys },
+  { roleKey: "about.form2.role" as TranslationKeys, company: "EPSI — Paris", period: "Août 2022 — Sept. 2023", descKey: "about.form2.desc" as TranslationKeys },
+  { roleKey: "about.form3.role" as TranslationKeys, company: "IUT d'Orléans", period: "Sept. 2020 — Juin 2022", descKey: "about.form3.desc" as TranslationKeys },
+];
+
 function AboutSection() {
   const { t } = useTranslation();
 
@@ -493,10 +503,11 @@ function AboutSection() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-          {/* Bio + Skills */}
-          <motion.div variants={sectionAnim} className="space-y-8">
-            <div className="space-y-4">
+        <div className="flex flex-col gap-16 lg:gap-24">
+          {/* Bio + Skills Row */}
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+            {/* Bio */}
+            <motion.div variants={sectionAnim} className="space-y-4">
               <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
                 {t("about.bio1")}
               </p>
@@ -506,10 +517,10 @@ function AboutSection() {
               <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
                 {t("about.bio3")}
               </p>
-            </div>
+            </motion.div>
 
             {/* Skills */}
-            <div>
+            <motion.div variants={sectionAnim}>
               <h3 className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
                 {t("about.skillsLabel")}
               </h3>
@@ -523,36 +534,67 @@ function AboutSection() {
                   </span>
                 ))}
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
-          {/* Experience */}
-          <motion.div variants={sectionAnim} className="space-y-6">
-            <h3 className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
-              {t("about.experienceLabel")}
-            </h3>
-            {EXPERIENCE_META.map((exp) => (
-              <div
-                key={exp.roleKey}
-                className="group rounded-xl border border-white/5 bg-white/2 p-5 transition-colors hover:border-white/10 hover:bg-white/5"
-              >
-                <div className="mb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
-                  <h4 className="text-sm font-medium text-white/90">
-                    {t(exp.roleKey)}
-                  </h4>
-                  <span className="font-mono text-[10px] text-zinc-500 mt-1 sm:mt-0">
-                    {exp.period}
-                  </span>
+          {/* Experience + Formations Row */}
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+            {/* Experience */}
+            <motion.div variants={sectionAnim} className="space-y-6">
+              <h3 className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+                {t("about.experienceLabel")}
+              </h3>
+              {EXPERIENCE_META.map((exp) => (
+                <div
+                  key={exp.roleKey}
+                  className="group rounded-xl border border-white/5 bg-white/2 p-5 transition-colors hover:border-white/10 hover:bg-white/5"
+                >
+                  <div className="mb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
+                    <h4 className="text-sm font-medium text-white/90">
+                      {t(exp.roleKey)}
+                    </h4>
+                    <span className="font-mono text-[10px] text-zinc-500 mt-1 sm:mt-0">
+                      {exp.period}
+                    </span>
+                  </div>
+                  <p className="mb-2 text-xs font-medium text-indigo-400/80">
+                    {exp.company}
+                  </p>
+                  <p className="text-xs leading-relaxed text-zinc-500">
+                    {t(exp.descKey)}
+                  </p>
                 </div>
-                <p className="mb-2 text-xs font-medium text-indigo-400/80">
-                  {exp.company}
-                </p>
-                <p className="text-xs leading-relaxed text-zinc-500">
-                  {t(exp.descKey)}
-                </p>
-              </div>
-            ))}
-          </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Formations */}
+            <motion.div variants={sectionAnim} className="space-y-6">
+              <h3 className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+                {t("about.formationLabel")}
+              </h3>
+              {FORMATION_META.map((form) => (
+                <div
+                  key={form.roleKey}
+                  className="group rounded-xl border border-white/5 bg-white/2 p-5 transition-colors hover:border-white/10 hover:bg-white/5"
+                >
+                  <div className="mb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
+                    <h4 className="text-sm font-medium text-white/90">
+                      {t(form.roleKey)}
+                    </h4>
+                    <span className="font-mono text-[10px] text-zinc-500 mt-1 sm:mt-0">
+                      {form.period}
+                    </span>
+                  </div>
+                  <p className="mb-2 text-xs font-medium text-indigo-400/80">
+                    {form.company}
+                  </p>
+                  <p className="text-xs leading-relaxed text-zinc-500">
+                    {t(form.descKey)}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </motion.div>
     </section>
@@ -562,17 +604,241 @@ function AboutSection() {
 // ---------------------------------------------------------------------------
 // Projects Section
 // ---------------------------------------------------------------------------
-const PROJECTS_META = [
-  { titleKey: "projects.proj1.title" as TranslationKeys, descKey: "projects.proj1.desc" as TranslationKeys, tags: ["NestJS", "ReactJS", "E2EE", "WebSocket"], link: "#" },
-  { titleKey: "projects.proj2.title" as TranslationKeys, descKey: "projects.proj2.desc" as TranslationKeys, tags: [".NET Core", "Microservices", "SQL Server", "Docker"], link: "#" },
-  { titleKey: "projects.proj3.title" as TranslationKeys, descKey: "projects.proj3.desc" as TranslationKeys, tags: ["NestJS", "Next.js", "AI", "Fintech"], link: "#" },
+
+type ProjectMeta = {
+  titleKey: TranslationKeys;
+  descKey: TranslationKeys;
+  tags: string[];
+  link?: string;
+  architectureLink?: string;
+  demoLink?: string;
+  contextKey?: string;
+  whatItDoesKey?: string;
+  challengesKeys?: string[];
+  image?: string;
+};
+
+const PROJECTS_META: ProjectMeta[] = [
+  {
+    titleKey: "projects.proj1.title" as TranslationKeys,
+    descKey: "projects.proj1.desc" as TranslationKeys,
+    tags: ["NestJS", "ReactJS", "TypeScript", "WebSocket", "MySQL", "MongoDB", "Redis", "Docker"],
+    contextKey: "projects.proj1.modal.context" as TranslationKeys,
+    whatItDoesKey: "projects.proj1.modal.whatItDoes" as TranslationKeys,
+    challengesKeys: [
+      "projects.proj1.modal.challenge1" as TranslationKeys,
+      "projects.proj1.modal.challenge2" as TranslationKeys,
+      "projects.proj1.modal.challenge3" as TranslationKeys,
+      "projects.proj1.modal.challenge4" as TranslationKeys
+    ],
+    architectureLink: "/Architecture-ChainChat.png",
+  },
+  {
+    titleKey: "projects.proj3.title" as TranslationKeys,
+    descKey: "projects.proj3.desc" as TranslationKeys,
+    tags: ["NestJS", "Next.js", "Supabase", "Anthropic SDK", "Hyperliquid SDK", "TypeScript", "Railway", "Vercel"],
+    contextKey: "projects.proj3.modal.context" as TranslationKeys,
+    whatItDoesKey: "projects.proj3.modal.whatItDoes" as TranslationKeys,
+    challengesKeys: [
+      "projects.proj3.modal.challenge1" as TranslationKeys,
+      "projects.proj3.modal.challenge2" as TranslationKeys,
+      "projects.proj3.modal.challenge3" as TranslationKeys
+    ],
+  },
 ];
+
+function ProjectModal({
+  project,
+  onClose,
+}: {
+  project: ProjectMeta;
+  onClose: () => void;
+}) {
+  const { t } = useTranslation();
+  const [showImageModal, setShowImageModal] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEscape);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "auto";
+    };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-100 flex items-center justify-center px-4 py-6">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm cursor-pointer"
+      />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="relative flex flex-col w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl shadow-2xl"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10"
+        >
+          <X size={20} />
+        </button>
+
+        <h2 className="text-3xl font-semibold text-white/90 mb-4 pr-10">
+          {t(project.titleKey)}
+        </h2>
+
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-zinc-300"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {(project.architectureLink || project.demoLink) && (
+          <div className="flex flex-wrap gap-4 mb-8">
+            {project.architectureLink && (
+              <button
+                onClick={() => setShowImageModal(project.architectureLink!)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors text-sm font-medium text-white"
+              >
+                <Network size={16} />
+                {t("projects.modal.viewArchitecture" as TranslationKeys)}
+              </button>
+            )}
+            {project.demoLink && (
+              <a
+                href={project.demoLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors text-sm font-medium text-white"
+              >
+                <Clapperboard size={16} />
+                {t("projects.modal.viewDemo" as TranslationKeys)}
+              </a>
+            )}
+          </div>
+        )}
+
+        <div className="space-y-8 flex-1">
+          {project.contextKey && (
+            <div>
+              <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-2">
+                {t("projects.modal.context" as TranslationKeys)}
+              </h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                {t(project.contextKey as TranslationKeys)}
+              </p>
+            </div>
+          )}
+
+          {project.whatItDoesKey && (
+            <div>
+              <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-2">
+                {t("projects.modal.whatItDoes" as TranslationKeys)}
+              </h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                {t(project.whatItDoesKey as TranslationKeys)}
+              </p>
+            </div>
+          )}
+
+          {project.challengesKeys && project.challengesKeys.length > 0 && (
+            <div>
+              <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-3">
+                {t("projects.modal.challenges" as TranslationKeys)}
+              </h3>
+              <ul className="space-y-2">
+                {project.challengesKeys.map((challengeKey, idx) => {
+                  const challengeTranslation = t(challengeKey as TranslationKeys);
+                  // Split at the first colon
+                  const colonIndex = challengeTranslation.indexOf(":");
+
+                  let boldPart = challengeTranslation;
+                  let rest = "";
+
+                  if (colonIndex !== -1) {
+                    boldPart = challengeTranslation.substring(0, colonIndex + 1);
+                    rest = challengeTranslation.substring(colonIndex + 1);
+                  }
+
+                  return (
+                    <li key={idx} className="flex gap-3 text-sm text-zinc-400 leading-relaxed">
+                      <span className="text-indigo-400 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400/50" />
+                      <span>
+                        <span className="text-white/80 font-medium">{boldPart}</span>
+                        {rest}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+        </div>
+      </motion.div>
+
+      <AnimatePresence>
+        {showImageModal && (
+          <div className="fixed inset-0 z-110 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowImageModal(null)}
+              className="absolute inset-0 bg-black/90 backdrop-blur-md cursor-pointer"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative z-10 max-w-5xl w-full flex justify-center"
+            >
+              <button
+                onClick={() => setShowImageModal(null)}
+                className="absolute -top-12 sm:-top-16 right-0 sm:-right-4 p-2 text-white/50 hover:text-white transition-colors rounded-full hover:bg-white/10"
+              >
+                <X size={28} />
+              </button>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={showImageModal}
+                alt="Architecture Diagram"
+                className="w-full h-auto max-h-[85vh] object-contain rounded-2xl border border-white/10 shadow-2xl bg-zinc-900 overflow-hidden"
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function ProjectsSection() {
   const { t } = useTranslation();
+  const [selectedProject, setSelectedProject] = useState<ProjectMeta | null>(null);
 
   return (
     <section id="projects" className="relative w-full px-6 py-32">
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+      </AnimatePresence>
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -594,13 +860,21 @@ function ProjectsSection() {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {PROJECTS_META.map((project) => (
-            <motion.div key={project.titleKey} variants={sectionAnim} className="h-full">
+            <motion.div
+              key={project.titleKey}
+              variants={sectionAnim}
+              className="h-full cursor-pointer"
+              onClick={() => setSelectedProject(project)}
+            >
               <div className="block h-full">
-                <GlassCard className="flex h-full flex-col justify-between">
+                <GlassCard className="flex h-full flex-col justify-between transition-all hover:scale-[1.02]">
                   <div>
                     <div className="mb-4 flex items-center justify-between">
                       <div className="rounded-lg border border-white/10 bg-white/5 p-2">
                         <Layers size={18} className="text-indigo-400" />
+                      </div>
+                      <div className="text-zinc-500 transition-colors group-hover:text-white">
+                        <ArrowUpRight size={20} />
                       </div>
                     </div>
                     <h3 className="mb-2 text-lg font-semibold text-white/90">
