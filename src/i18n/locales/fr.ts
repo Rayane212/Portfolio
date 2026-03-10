@@ -42,6 +42,15 @@ const fr = {
   "about.exp3.role": "Stagiaire Développement Web",
   "about.exp3.desc": "Développement d'une application web en PHP.",
 
+  // Formations
+  "about.formationLabel": "Formation",
+  "about.form1.role": "Expert en Développement Logiciel (RNCP Nv 7)",
+  "about.form1.desc": "Mastère spécialisé en architecture logicielle complexe, sécurité des systèmes d'information et technologies Full Stack avancées.",
+  "about.form2.role": "Concepteur et Développeur d'application (RNCP Nv 6)",
+  "about.form2.desc": "Conception d'applications, modélisation de bases de données et architectures C#/.NET.",
+  "about.form3.role": "DUT Informatique",
+  "about.form3.desc": "Fondamentaux de l'ingénierie logicielle, algorithmique, développement Java et architectures web.",
+
   // Projects
   "projects.label": "02 — Projets",
   "projects.title": "Mes ",
@@ -49,12 +58,32 @@ const fr = {
   "projects.proj1.title": "ChainChat",
   "projects.proj1.desc":
     "Messagerie chiffrée de bout en bout garantissant la confidentialité totale.",
-  "projects.proj2.title": "Matchfolio",
-  "projects.proj2.desc":
-    "Mise en relation recruteurs/candidats basée sur les portfolios via une architecture microservices.",
   "projects.proj3.title": "HyperAgent",
   "projects.proj3.desc":
-    "Agent IA de trading sur Hyperliquid pour l'automatisation de stratégies blockchain.",
+    "Agent IA de trading autonome sur Hyperliquid, combinant analyse de marché en temps réel et exécution automatisée pilotée par Claude (Anthropic).",
+
+  // Projects Modal
+  "projects.modal.close": "Fermer",
+  "projects.modal.viewArchitecture": "Voir le schéma d'architecture",
+  "projects.modal.viewDemo": "Voir la démo",
+  "projects.modal.context": "Contexte",
+  "projects.modal.whatItDoes": "Ce que fait le projet",
+  "projects.modal.challenges": "Défis techniques",
+
+  // ChainChat Modal Content
+  "projects.proj1.modal.context": "Projet personnel pour explorer la sécurité applicative et les architectures temps réel. L'objectif : construire une plateforme de messagerie où aucun tiers — pas même le serveur — ne peut lire les messages.",
+  "projects.proj1.modal.whatItDoes": "Les messageries grand public (WhatsApp, Messenger) centralisent les données côté serveur. ChainChat inverse ce modèle : le chiffrement se fait côté client, et seuls les destinataires possèdent les clés de déchiffrement.",
+  "projects.proj1.modal.challenge1": "Chiffrement E2E : implémenter un protocole cryptographique robuste sans dépendre de solutions tierces.",
+  "projects.proj1.modal.challenge2": "Temps réel à l'échelle : synchroniser les messages entre clients via WebSockets tout en maintenant l'intégrité du chiffrement.",
+  "projects.proj1.modal.challenge3": "Architecture microservices : découpler auth, messagerie et API gateway pour isoler les responsabilités et faciliter la scalabilité.",
+  "projects.proj1.modal.challenge4": "Gestion des clés : distribuer les clés publiques sans exposer les clés privées, même en cas de compromission du serveur.",
+
+  // HyperAgent Modal Content
+  "projects.proj3.modal.context": "Les traders actifs sur Hyperliquid manquent d'outils combinant analyse intelligente et exécution automatique. Les bots existants sont génériques, ignorent les spécificités de la plateforme (funding rates, open interest, liquidations) et n'expliquent jamais leurs décisions.",
+  "projects.proj3.modal.whatItDoes": "Un co-pilote SaaS non-custodial : l'IA analyse les données de marché en continu, génère des signaux explicables en langage naturel, et exécute les ordres automatiquement dans les limites de risque définies par l'utilisateur. Trois modes de contrôle : signal-only, semi-auto, ou fully autonomous.",
+  "projects.proj3.modal.challenge1": "Fiabilité de l'IA en finance : Chaque output de Claude passe par un pipeline de validation strict (Zod + contrôles de cohérence métier) avant exécution. Un signal ambigu est systématiquement rejeté.",
+  "projects.proj3.modal.challenge2": "Synchronisation d'état : Un mécanisme de réconciliation toutes les 30s corrige les divergences entre l'état interne et les positions réelles sur Hyperliquid (gestion des timeouts et fills partiels).",
+  "projects.proj3.modal.challenge3": "Transparence totale : Le raisonnement de Claude est persisté en base de données et affiché dans le dashboard. L'agent ne trade jamais en boîte noire.",
 
   // Contact
   "contact.label": "03 — Contact",
