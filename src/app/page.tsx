@@ -28,6 +28,7 @@ import {
   X,
   Network,
   Clapperboard,
+  Phone,
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -195,12 +196,16 @@ function Navbar() {
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-      className={cn(
-        "fixed left-0 right-0 top-0 z-50 flex items-center justify-center px-6 py-4 transition-all duration-300 border-b",
-        scrolled ? "bg-background/80 backdrop-blur-md border-white/5" : "border-transparent"
-      )}
+      className="fixed inset-x-0 top-0 z-50 flex items-center justify-center px-6 py-4"
     >
-      <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-1 py-1 backdrop-blur-xl">
+      <div
+        className={cn(
+          "absolute inset-0 transition-all duration-300 border-b",
+          scrolled ? "bg-background/80 backdrop-blur-md border-white/5" : "bg-transparent border-transparent"
+        )}
+      />
+      <div className="relative z-10 flex items-center gap-1 rounded-full border border-white/10 px-1 py-1">
+        <div className="absolute inset-0 rounded-full bg-white/5 backdrop-blur-xl -z-10" />
         {NAV_HREFS.map((href, i) => {
           const id = href.replace("#", "");
           const isActive = active === id;
@@ -676,116 +681,122 @@ function ProjectModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm cursor-pointer"
+        className="absolute inset-0 bg-black/80 cursor-pointer"
       />
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative flex flex-col w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl shadow-2xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="relative w-full max-w-3xl max-h-[85vh] rounded-2xl shadow-2xl overflow-hidden"
       >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10"
-        >
-          <X size={20} />
-        </button>
+        {/* Isolated background layer for Safari Desktop WebKit performance */}
+        <div className="absolute inset-0 bg-white/5 backdrop-blur-xl sm:bg-zinc-900/50 sm:backdrop-blur-xl border border-white/10" />
 
-        <h2 className="text-3xl font-semibold text-white/90 mb-4 pr-10">
-          {t(project.titleKey)}
-        </h2>
+        {/* Scrolling content layer */}
+        <div className="relative flex flex-col w-full h-full max-h-[85vh] overflow-y-auto p-6 sm:p-8">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 p-2 text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/10"
+          >
+            <X size={20} />
+          </button>
 
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-zinc-300"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+          <h2 className="text-3xl font-semibold text-white/90 mb-4 pr-10">
+            {t(project.titleKey)}
+          </h2>
 
-        {(project.architectureLink || project.demoLink) && (
-          <div className="flex flex-wrap gap-4 mb-8">
-            {project.architectureLink && (
-              <button
-                onClick={() => setShowImageModal(project.architectureLink!)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors text-sm font-medium text-white"
+          <div className="flex flex-wrap gap-2 mb-6">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-zinc-300"
               >
-                <Network size={16} />
-                {t("projects.modal.viewArchitecture" as TranslationKeys)}
-              </button>
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {(project.architectureLink || project.demoLink) && (
+            <div className="flex flex-wrap gap-4 mb-8">
+              {project.architectureLink && (
+                <button
+                  onClick={() => setShowImageModal(project.architectureLink!)}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors text-sm font-medium text-white"
+                >
+                  <Network size={16} />
+                  {t("projects.modal.viewArchitecture" as TranslationKeys)}
+                </button>
+              )}
+              {project.demoLink && (
+                <a
+                  href={project.demoLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors text-sm font-medium text-white"
+                >
+                  <Clapperboard size={16} />
+                  {t("projects.modal.viewDemo" as TranslationKeys)}
+                </a>
+              )}
+            </div>
+          )}
+
+          <div className="space-y-8 flex-1">
+            {project.contextKey && (
+              <div>
+                <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-2">
+                  {t("projects.modal.context" as TranslationKeys)}
+                </h3>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  {t(project.contextKey as TranslationKeys)}
+                </p>
+              </div>
             )}
-            {project.demoLink && (
-              <a
-                href={project.demoLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors text-sm font-medium text-white"
-              >
-                <Clapperboard size={16} />
-                {t("projects.modal.viewDemo" as TranslationKeys)}
-              </a>
+
+            {project.whatItDoesKey && (
+              <div>
+                <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-2">
+                  {t("projects.modal.whatItDoes" as TranslationKeys)}
+                </h3>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  {t(project.whatItDoesKey as TranslationKeys)}
+                </p>
+              </div>
+            )}
+
+            {project.challengesKeys && project.challengesKeys.length > 0 && (
+              <div>
+                <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-3">
+                  {t("projects.modal.challenges" as TranslationKeys)}
+                </h3>
+                <ul className="space-y-2">
+                  {project.challengesKeys.map((challengeKey, idx) => {
+                    const challengeTranslation = t(challengeKey as TranslationKeys);
+                    // Split at the first colon
+                    const colonIndex = challengeTranslation.indexOf(":");
+
+                    let boldPart = challengeTranslation;
+                    let rest = "";
+
+                    if (colonIndex !== -1) {
+                      boldPart = challengeTranslation.substring(0, colonIndex + 1);
+                      rest = challengeTranslation.substring(colonIndex + 1);
+                    }
+
+                    return (
+                      <li key={idx} className="flex gap-3 text-sm text-zinc-400 leading-relaxed">
+                        <span className="text-indigo-400 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400/50" />
+                        <span>
+                          <span className="text-white/80 font-medium">{boldPart}</span>
+                          {rest}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             )}
           </div>
-        )}
-
-        <div className="space-y-8 flex-1">
-          {project.contextKey && (
-            <div>
-              <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-2">
-                {t("projects.modal.context" as TranslationKeys)}
-              </h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">
-                {t(project.contextKey as TranslationKeys)}
-              </p>
-            </div>
-          )}
-
-          {project.whatItDoesKey && (
-            <div>
-              <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-2">
-                {t("projects.modal.whatItDoes" as TranslationKeys)}
-              </h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">
-                {t(project.whatItDoesKey as TranslationKeys)}
-              </p>
-            </div>
-          )}
-
-          {project.challengesKeys && project.challengesKeys.length > 0 && (
-            <div>
-              <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-3">
-                {t("projects.modal.challenges" as TranslationKeys)}
-              </h3>
-              <ul className="space-y-2">
-                {project.challengesKeys.map((challengeKey, idx) => {
-                  const challengeTranslation = t(challengeKey as TranslationKeys);
-                  // Split at the first colon
-                  const colonIndex = challengeTranslation.indexOf(":");
-
-                  let boldPart = challengeTranslation;
-                  let rest = "";
-
-                  if (colonIndex !== -1) {
-                    boldPart = challengeTranslation.substring(0, colonIndex + 1);
-                    rest = challengeTranslation.substring(colonIndex + 1);
-                  }
-
-                  return (
-                    <li key={idx} className="flex gap-3 text-sm text-zinc-400 leading-relaxed">
-                      <span className="text-indigo-400 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400/50" />
-                      <span>
-                        <span className="text-white/80 font-medium">{boldPart}</span>
-                        {rest}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          )}
         </div>
       </motion.div>
 
@@ -797,12 +808,12 @@ function ProjectModal({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowImageModal(null)}
-              className="absolute inset-0 bg-black/90 backdrop-blur-md cursor-pointer"
+              className="absolute inset-0 bg-black/95 cursor-pointer"
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="relative z-10 max-w-5xl w-full flex justify-center"
             >
               <button
@@ -911,12 +922,24 @@ function ContactSection() {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error" | "ratelimited">("idle");
-  const [copied, setCopied] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText("rayanehadi41@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const handlePhoneClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // If we're on a non-touch device (PC/Mac), we copy the number instead of launching the dialer
+    if (window.matchMedia("(pointer: fine)").matches) {
+      e.preventDefault();
+      navigator.clipboard.writeText("06 51 15 88 35");
+      setCopiedPhone(true);
+      setTimeout(() => setCopiedPhone(false), 2000);
+    }
+    // On mobile, the default href="tel:..." action will trigger the phone app
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -1059,17 +1082,35 @@ function ContactSection() {
             onClick={handleCopyEmail}
             className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
           >
-            {copied ? <Check size={16} className="text-green-400" /> : <Mail size={16} />}
+            {copiedEmail ? <Check size={16} className="text-green-400" /> : <Mail size={16} />}
             rayanehadi41@gmail.com
-            {copied ? (
+            {copiedEmail ? (
               <span className="text-xs text-green-400">Copié !</span>
             ) : (
               <Copy
                 size={14}
-                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="hidden sm:block transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             )}
           </button>
+
+          <a
+            href="tel:+33651158835"
+            onClick={handlePhoneClick}
+            className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            {copiedPhone ? <Check size={16} className="text-green-400" /> : <Phone size={16} />}
+            06 51 15 88 35
+            {copiedPhone ? (
+              <span className="text-xs text-green-400">Copié !</span>
+            ) : (
+              <Copy
+                size={14}
+                className="hidden sm:block transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            )}
+          </a>
+
 
           {/* Social Links */}
           <div className="flex gap-4">
