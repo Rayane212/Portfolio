@@ -57,21 +57,9 @@ function cn(...inputs: ClassValue[]) {
 // ---------------------------------------------------------------------------
 const Atmosphere = () => (
   <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-    <motion.div
-      animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], y: [0, 30, 0] }}
-      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-      className="absolute -left-[10%] -top-[10%] h-[50%] w-[50%] rounded-full bg-indigo-600/20 blur-[120px]"
-    />
-    <motion.div
-      animate={{ scale: [1, 1.3, 1], x: [0, -40, 0], y: [0, -60, 0] }}
-      transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-      className="absolute -right-[5%] top-[20%] h-[45%] w-[45%] rounded-full bg-blue-600/20 blur-[100px]"
-    />
-    <motion.div
-      animate={{ scale: [1, 1.1, 1], x: [0, 20, 0], y: [0, 80, 0] }}
-      transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-      className="absolute -bottom-[10%] left-[20%] h-[40%] w-[40%] rounded-full bg-purple-600/10 blur-[110px]"
-    />
+    <div className="atm-blob-1 absolute -left-[10%] -top-[10%] h-[50%] w-[50%] rounded-full bg-indigo-600/20 blur-[80px]" />
+    <div className="atm-blob-2 absolute -right-[5%] top-[20%] h-[45%] w-[45%] rounded-full bg-blue-600/20 blur-[70px]" />
+    <div className="atm-blob-3 absolute -bottom-[10%] left-[20%] h-[40%] w-[40%] rounded-full bg-purple-600/10 blur-[80px]" />
   </div>
 );
 
@@ -102,7 +90,7 @@ function GlassCard({
         x.set(0);
         y.set(0);
       }}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      style={{ rotateX, rotateY }}
       className={cn(
         "group relative rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition-colors hover:bg-white/10",
         className
@@ -110,7 +98,7 @@ function GlassCard({
     >
       <div className="pointer-events-none absolute inset-0 rounded-2xl bg-linear-to-br from-white/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
       <div className="pointer-events-none absolute -inset-px rounded-2xl bg-linear-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 transition-opacity group-hover:opacity-100" />
-      <div style={{ transform: "translateZ(20px)" }}>{children}</div>
+      <div>{children}</div>
     </motion.div>
   );
 }
@@ -690,7 +678,7 @@ function ProjectModal({
         className="relative w-full max-w-3xl max-h-[85vh] rounded-2xl shadow-2xl overflow-hidden"
       >
         {/* Isolated background layer for Safari Desktop WebKit performance */}
-        <div className="absolute inset-0 bg-white/5 backdrop-blur-xl sm:bg-zinc-900/50 sm:backdrop-blur-xl border border-white/10" />
+        <div className="absolute inset-0 bg-white/5 sm:bg-zinc-900/50 backdrop-blur-xl border border-white/10" />
 
         {/* Scrolling content layer */}
         <div className="relative flex flex-col w-full h-full max-h-[85vh] overflow-y-auto p-6 sm:p-8">
