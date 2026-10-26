@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Rayane Hadi — Développeur Full Stack",
-  description: "Développeur Full Stack (Java/Spring Boot, TypeScript, Next.js) avec une appétence DevOps et une expertise en intégration de LLM. Basé à Toulouse.",
+  description: "Développeur Full Stack (Java/Spring Boot, TypeScript, Next.js) avec une appétence DevOps et un intérêt pour l'intégration de LLM. Basé à Toulouse.",
 };
 
 export default function RootLayout({

@@ -12,7 +12,7 @@ const en: Record<TranslationKeys, string> = {
   "hero.greeting": "Hello, I'm",
   "hero.subtitle": "Full Stack Developer.",
   "hero.bio":
-    "Full Stack Developer with a strong interest in DevOps. I spent two years at Airbus modernizing a Java application, and I take my personal projects all the way to production: containerized, tested and shipped through CI/CD. I work AI-first with Claude Code and integrate LLMs into real-world products.",
+    "Full Stack Developer with a strong interest in DevOps. I spent two years at Airbus modernizing a Java application, and I take my personal projects all the way to production: containerized, tested and shipped through CI/CD. I'm also interested in integrating LLMs into real-world applications.",
   "hero.cta": "View Projects",
   "hero.cv": "Download Resume",
   "hero.scroll": "Scroll",
@@ -32,7 +32,7 @@ const en: Record<TranslationKeys, string> = {
   "about.bio2":
     "I like taking projects all the way to production. Voyago, my AI travel-planning agent, is live with subscriptions, tests and CI/CD. ChainChat, my end-to-end encrypted messaging app, had me deploy a microservices architecture on Kubernetes, complete with monitoring.",
   "about.bio3":
-    "I work AI-first: Claude Code and the BMAD method are part of my daily workflow, and integrating LLMs into products has become one of my core strengths.",
+    "I'm particularly interested in integrating LLMs into real-world applications, something I put into practice with Voyago.",
   "about.bio4":
     "On the human side, I value teamwork and perseverance, qualities I also build through boxing.",
   "about.skillsLabel": "Technologies",

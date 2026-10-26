@@ -10,7 +10,7 @@ const fr = {
   "hero.greeting": "Bonjour, je suis",
   "hero.subtitle": "Développeur Full Stack.",
   "hero.bio":
-    "Développeur Full Stack avec une appétence DevOps. Deux ans chez Airbus à moderniser une application Java, et des projets personnels que je mène jusqu'en production : conteneurisés, testés et déployés en CI/CD. Je travaille en IA-first avec Claude Code et j'intègre des LLM dans des produits réels.",
+    "Développeur Full Stack avec une appétence DevOps. Deux ans chez Airbus à moderniser une application Java, et des projets personnels que je mène jusqu'en production : conteneurisés, testés et déployés en CI/CD. Je m'intéresse aussi à l'intégration de LLM dans des applications concrètes.",
   "hero.cta": "Voir les projets",
   "hero.cv": "Télécharger mon CV",
   "hero.scroll": "Scroll",
@@ -30,7 +30,7 @@ const fr = {
   "about.bio2":
     "J'aime mener un projet jusqu'en production. Voyago, mon agent IA de planification de voyage, est en ligne avec abonnement, tests et CI/CD. ChainChat, ma messagerie chiffrée de bout en bout, m'a fait déployer une architecture microservices sur Kubernetes, avec monitoring.",
   "about.bio3":
-    "Je travaille en IA-first : Claude Code et la méthode BMAD font partie de mon quotidien, et l'intégration de LLM dans des produits est devenue l'un de mes points forts.",
+    "Je m'intéresse particulièrement à l'intégration de LLM dans des applications concrètes, un sujet que j'ai mis en pratique avec Voyago.",
   "about.bio4":
     "Côté humain, je mise sur l'esprit d'équipe et la persévérance, des valeurs que je cultive aussi en boxe.",
   "about.skillsLabel": "Technologies",
