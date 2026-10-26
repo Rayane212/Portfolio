@@ -28,7 +28,6 @@ import {
   X,
   Network,
   Clapperboard,
-  Phone,
 } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -446,28 +445,47 @@ function HeroSection() {
 // ---------------------------------------------------------------------------
 const SKILLS = [
   "Java",
+  "Spring Boot",
+  "TypeScript",
   "NestJS",
-  "C#",
-  "ReactJS",
+  "Next.js",
+  "React",
   "Angular",
-  "JavaScript",
-  "HTML/CSS",
+  "C#/.NET",
+  "PostgreSQL",
   "MySQL",
-  "MariaDB",
-  "SQL Server",
+  "Redis",
+  "Supabase",
   "Docker",
   "Kubernetes",
+  "GitHub Actions",
+  "Prometheus/Grafana",
+  "JUnit",
+  "Cypress",
 ];
 
-const EXPERIENCE_META = [
-  { roleKey: "about.exp1.role" as TranslationKeys, company: "Airbus Operations — Toulouse", period: "Oct. 2023 — Sept. 2025", descKey: "about.exp1.desc" as TranslationKeys },
-  { roleKey: "about.exp2.role" as TranslationKeys, company: "DailyBiz — Saint-Ouen", period: "Août 2022 — Sept. 2023", descKey: "about.exp2.desc" as TranslationKeys },
-  { roleKey: "about.exp3.role" as TranslationKeys, company: "Préfecture de Police — Paris", period: "Juin 2022 — Août 2022", descKey: "about.exp3.desc" as TranslationKeys },
+type ExperienceMeta = {
+  roleKey: TranslationKeys;
+  company: string;
+  period: string;
+  descKey?: TranslationKeys;
+  bulletKeys?: TranslationKeys[];
+};
+
+const EXPERIENCE_META: ExperienceMeta[] = [
+  {
+    roleKey: "about.exp1.role",
+    company: "Airbus Operations — Toulouse",
+    period: "Oct. 2023 — Sept. 2025",
+    bulletKeys: ["about.exp1.bullet1", "about.exp1.bullet2", "about.exp1.bullet3", "about.exp1.bullet4"],
+  },
+  { roleKey: "about.exp2.role", company: "DailyBiz — Saint-Ouen", period: "Août 2022 — Oct. 2023", descKey: "about.exp2.desc" },
+  { roleKey: "about.exp3.role", company: "Préfecture de Police — Paris", period: "Juin 2022 — Août 2022", descKey: "about.exp3.desc" },
 ];
 
 const FORMATION_META = [
   { roleKey: "about.form1.role" as TranslationKeys, company: "Ynov — Toulouse", period: "Oct. 2023 — Sept. 2025", descKey: "about.form1.desc" as TranslationKeys },
-  { roleKey: "about.form2.role" as TranslationKeys, company: "EPSI — Paris", period: "Août 2022 — Sept. 2023", descKey: "about.form2.desc" as TranslationKeys },
+  { roleKey: "about.form2.role" as TranslationKeys, company: "EPSI — Paris", period: "Août 2022 — Oct. 2023", descKey: "about.form2.desc" as TranslationKeys },
   { roleKey: "about.form3.role" as TranslationKeys, company: "IUT d'Orléans", period: "Sept. 2020 — Juin 2022", descKey: "about.form3.desc" as TranslationKeys },
 ];
 
@@ -510,6 +528,9 @@ function AboutSection() {
               <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
                 {t("about.bio3")}
               </p>
+              <p className="max-w-lg text-sm leading-relaxed text-zinc-400 md:text-base">
+                {t("about.bio4")}
+              </p>
             </motion.div>
 
             {/* Skills */}
@@ -518,7 +539,7 @@ function AboutSection() {
                 {t("about.skillsLabel")}
               </h3>
               <div className="flex flex-wrap gap-2">
-                {SKILLS.map((skill) => (
+                {[...SKILLS, t("about.skills.llm")].map((skill) => (
                   <span
                     key={skill}
                     className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300 transition-colors hover:bg-white/10"
@@ -553,9 +574,18 @@ function AboutSection() {
                   <p className="mb-2 text-xs font-medium text-indigo-400/80">
                     {exp.company}
                   </p>
-                  <p className="text-xs leading-relaxed text-zinc-500">
-                    {t(exp.descKey)}
-                  </p>
+                  {exp.descKey && (
+                    <p className="text-xs leading-relaxed text-zinc-500">
+                      {t(exp.descKey)}
+                    </p>
+                  )}
+                  {exp.bulletKeys && (
+                    <ul className="list-disc space-y-1 pl-4 text-xs leading-relaxed text-zinc-500">
+                      {exp.bulletKeys.map((key) => (
+                        <li key={key}>{t(key)}</li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               ))}
             </motion.div>
@@ -603,6 +633,7 @@ type ProjectMeta = {
   descKey: TranslationKeys;
   tags: string[];
   link?: string;
+  siteLink?: string;
   architectureLink?: string;
   demoLink?: string;
   contextKey?: string;
@@ -613,9 +644,15 @@ type ProjectMeta = {
 
 const PROJECTS_META: ProjectMeta[] = [
   {
+    titleKey: "projects.voyago.title",
+    descKey: "projects.voyago.desc",
+    tags: ["Next.js", "TypeScript", "Supabase", "Vercel AI SDK", "Stripe", "Tailwind", "Vitest", "GitHub Actions"],
+    siteLink: "https://voyago.page",
+  },
+  {
     titleKey: "projects.proj1.title" as TranslationKeys,
     descKey: "projects.proj1.desc" as TranslationKeys,
-    tags: ["NestJS", "ReactJS", "TypeScript", "WebSocket", "MySQL", "MongoDB", "Redis", "Docker"],
+    tags: ["NestJS", "ReactJS", "TypeScript", "WebSocket", "MySQL", "MongoDB", "Redis", "Docker", "JWT", "S3", "Kubernetes", "Prometheus", "Grafana", "GitHub Actions"],
     contextKey: "projects.proj1.modal.context" as TranslationKeys,
     whatItDoesKey: "projects.proj1.modal.whatItDoes" as TranslationKeys,
     challengesKeys: [
@@ -627,16 +664,9 @@ const PROJECTS_META: ProjectMeta[] = [
     architectureLink: "/Architecture-ChainChat.png",
   },
   {
-    titleKey: "projects.proj3.title" as TranslationKeys,
-    descKey: "projects.proj3.desc" as TranslationKeys,
-    tags: ["NestJS", "Next.js", "Supabase", "Anthropic SDK", "Hyperliquid SDK", "TypeScript", "Railway", "Vercel"],
-    contextKey: "projects.proj3.modal.context" as TranslationKeys,
-    whatItDoesKey: "projects.proj3.modal.whatItDoes" as TranslationKeys,
-    challengesKeys: [
-      "projects.proj3.modal.challenge1" as TranslationKeys,
-      "projects.proj3.modal.challenge2" as TranslationKeys,
-      "projects.proj3.modal.challenge3" as TranslationKeys
-    ],
+    titleKey: "projects.localChatbot.title",
+    descKey: "projects.localChatbot.desc",
+    tags: ["Java", "Spring Boot"],
   },
 ];
 
@@ -704,8 +734,19 @@ function ProjectModal({
             ))}
           </div>
 
-          {(project.architectureLink || project.demoLink) && (
+          {(project.siteLink || project.architectureLink || project.demoLink) && (
             <div className="flex flex-wrap gap-4 mb-8">
+              {project.siteLink && (
+                <a
+                  href={project.siteLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors text-sm font-medium text-white"
+                >
+                  <ExternalLink size={16} />
+                  {t("projects.modal.viewSite")}
+                </a>
+              )}
               {project.architectureLink && (
                 <button
                   onClick={() => setShowImageModal(project.architectureLink!)}
@@ -730,6 +771,12 @@ function ProjectModal({
           )}
 
           <div className="space-y-8 flex-1">
+            {!project.contextKey && !project.whatItDoesKey && (
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                {t(project.descKey)}
+              </p>
+            )}
+
             {project.contextKey && (
               <div>
                 <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-2">
@@ -911,23 +958,11 @@ function ContactSection() {
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error" | "ratelimited">("idle");
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedPhone, setCopiedPhone] = useState(false);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText("rayanehadi41@gmail.com");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
-  };
-
-  const handlePhoneClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // If we're on a non-touch device (PC/Mac), we copy the number instead of launching the dialer
-    if (window.matchMedia("(pointer: fine)").matches) {
-      e.preventDefault();
-      navigator.clipboard.writeText("06 51 15 88 35");
-      setCopiedPhone(true);
-      setTimeout(() => setCopiedPhone(false), 2000);
-    }
-    // On mobile, the default href="tel:..." action will trigger the phone app
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -1081,24 +1116,6 @@ function ContactSection() {
               />
             )}
           </button>
-
-          <a
-            href="tel:+33651158835"
-            onClick={handlePhoneClick}
-            className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm text-zinc-400 transition-colors hover:bg-white/10 hover:text-white"
-          >
-            {copiedPhone ? <Check size={16} className="text-green-400" /> : <Phone size={16} />}
-            06 51 15 88 35
-            {copiedPhone ? (
-              <span className="text-xs text-green-400">Copié !</span>
-            ) : (
-              <Copy
-                size={14}
-                className="hidden sm:block transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            )}
-          </a>
-
 
           {/* Social Links */}
           <div className="flex gap-4">
